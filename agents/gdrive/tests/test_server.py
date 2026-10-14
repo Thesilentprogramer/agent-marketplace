@@ -1,3 +1,4 @@
+import json
 import os
 import stat
 from pathlib import Path
@@ -7,10 +8,20 @@ from gdrive_agent.server import build_tools, key_path
 KEY = '{"type": "service_account", "client_email": "reader@example.invalid"}'
 
 
-def test_the_server_offers_the_three_drive_tools(tmp_path):
+CATALOG = json.loads((Path(__file__).resolve().parents[1] / "catalog-1.0.0.json").read_text(encoding="utf-8"))
+
+
+def test_the_server_offers_exactly_the_tools_its_catalog_entry_names(tmp_path):
     tools, problem = build_tools({"GOOGLE_SA_JSON": KEY, "CACHE_DIR": str(tmp_path)}, key_dir=tmp_path)
     assert problem is None
-    assert sorted(t.name for t in tools) == ["browse_drive", "read_drive_file", "search_drive"]
+    assert sorted(t.name for t in tools) == sorted(CATALOG["router"]["agent"]["tools"])
+
+
+def test_the_catalog_describes_each_tool_as_the_tool_describes_itself(tmp_path):
+    tools, _ = build_tools({"GOOGLE_SA_JSON": KEY, "CACHE_DIR": str(tmp_path)}, key_dir=tmp_path)
+    described = CATALOG["router"]["tool_descriptions"]
+    assert {t.name: " ".join(t.description.split()) for t in tools} == {
+        name: " ".join(text.split()) for name, text in described.items()}
 
 
 def test_the_key_can_arrive_as_its_contents_and_is_kept_private(tmp_path):
