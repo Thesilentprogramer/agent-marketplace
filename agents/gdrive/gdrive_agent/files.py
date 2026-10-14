@@ -19,9 +19,12 @@ from gdrive_agent.kinds import Kind, kind_of
 
 MAX_CHARS = 200_000
 MAX_BYTES = 25 * 1024 * 1024
-# Office files are zips, and the reader parses each part whole: a 10 MB workbook
-# can unpack to hundreds of MB inside a 384 MB container.
-MAX_UNZIPPED_BYTES = 100 * 1024 * 1024
+# Office files are zips, and the reader parses each part whole, so what matters
+# is the unpacked size, not the file's.
+# Measured 2026-10-14: reading a workbook peaks at about 19x its unpacked size
+# (10 MB -> 241 MB, 25 MB -> 537 MB), so 16 MB fits the catalog's 512 MB with the
+# agent's own ~75 MB (tests/test_files.py ties the two together).
+MAX_UNZIPPED_BYTES = 16 * 1024 * 1024
 
 
 class Unreadable(RuntimeError):
@@ -76,7 +79,12 @@ class FileReader:
             )
         cached = self.cache.get(key)
         if cached is not None:
-            return Extracted(**json.loads(cached))
+            # DiskCache writes in place: a read overlapping a write, or a container
+            # killed mid-write, leaves half an entry. Read past it, as a miss.
+            try:
+                return Extracted(**json.loads(cached))
+            except (ValueError, TypeError):
+                pass
         if kind.how == "export":
             data, filename = self.index.export(item.id, kind.export_as), item.name + kind.extension
         else:

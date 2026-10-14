@@ -1511,6 +1511,8 @@ Expected: `FileNotFoundError: … catalog-1.0.0.json`.
 
 `service.memory_mb` is 384 rather than the server default 256: a 25 MB workbook is unzipped and parsed in memory. It is a ceiling, not a reservation (idle agents measured 20-75 MiB).
 
+**Changed in the final review (2026-10-14):** measured, a workbook peaks at about 19x its unpacked size, so 384 MB with a 100 MB unpacked limit would crash on an ordinary 5 MB sheet. Shipped: `memory_mb` 512 and `MAX_UNZIPPED_BYTES` 16 MB, tied together by `test_the_default_unpacked_limit_fits_the_container`.
+
 - [ ] **Step 3: Run every check**
 
 ```bash

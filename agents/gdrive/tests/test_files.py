@@ -127,3 +127,27 @@ def test_long_text_is_cut_and_says_so(tmp_path):
     fake.add("t1", "long.txt", "text/plain", content=b"a" * 50)
     got = reader(fake, tmp_path, max_chars=10).read("t1")
     assert (got.text, got.truncated) == ("a" * 10, True)
+
+
+def test_the_default_unpacked_limit_fits_the_container():
+    """Final review, measured: reading a workbook peaks at about 19x its unpacked
+    size (10 MB unpacked -> 241 MB, 25 MB -> 537 MB). With the agent's own ~75 MB,
+    the default limit must fit inside the catalog's memory_mb."""
+    import json
+    from pathlib import Path
+
+    from gdrive_agent.files import MAX_UNZIPPED_BYTES
+
+    entry = json.loads((Path(__file__).resolve().parents[1] / "catalog-1.0.0.json").read_text())
+    peak_mb = 22 * MAX_UNZIPPED_BYTES / (1024 * 1024) + 75
+    assert peak_mb <= entry["service"]["memory_mb"]
+
+
+def test_a_damaged_cache_entry_is_read_past_not_reported(tmp_path):
+    """Final review: the cache writes in place, so a read that overlaps a write,
+    or a container killed mid-write, leaves half an entry behind."""
+    fake = FakeGoogle()
+    fake.add("t1", "deed.txt", "text/plain", content=b"Registered office in Girgaon")
+    files = reader(fake, tmp_path)
+    DiskCache(tmp_path / "gdrive").put("gdrive:t1#2026-10-01T10:00:00.000Z", '{"text": "Regist')
+    assert files.read("t1").text == "Registered office in Girgaon"
