@@ -11,19 +11,19 @@
   "publisher": "Kaliper",
   "display": {
     "name": "Notion",
-    "summary": "Searches and reads the Notion pages, databases, meeting notes and comments that the signed-in account can see.",
+    "summary": "Searches and reads the Notion pages, databases and comments that the signed-in account can see.",
     "categories": [
       "Documents"
     ],
     "logo": {
       "letter": "N",
-      "color": "#191919"
+      "color": "#ffffff",
+      "image": "data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMDAwMDAwIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+Tm90aW9uPC90aXRsZT48cGF0aCBkPSJNNC40NTkgNC4yMDhjLjc0Ni42MDYgMS4wMjYuNTYgMi40MjguNDY2bDEzLjIxNS0uNzkzYy4yOCAwIC4wNDctLjI4LS4wNDYtLjMyNkwxNy44NiAxLjk2OGMtLjQyLS4zMjYtLjk4MS0uNy0yLjA1NS0uNjA3TDMuMDEgMi4yOTVjLS40NjYuMDQ2LS41Ni4yOC0uMzc0LjQ2NnptLjc5MyAzLjA4djEzLjkwNGMwIC43NDcuMzczIDEuMDI3IDEuMjE0Ljk4bDE0LjUyMy0uODRjLjg0MS0uMDQ2LjkzNS0uNTYuOTM1LTEuMTY3VjYuMzU0YzAtLjYwNi0uMjMzLS45MzMtLjc0OC0uODg3bC0xNS4xNzcuODg3Yy0uNTYuMDQ3LS43NDcuMzI3LS43NDcuOTMzem0xNC4zMzcuNzQ1Yy4wOTMuNDIgMCAuODQtLjQyLjg4OGwtLjcuMTR2MTAuMjY0Yy0uNjA4LjMyNy0xLjE2OC41MTQtMS42MzUuNTE0LS43NDggMC0uOTM1LS4yMzQtMS40OTUtLjkzM2wtNC41NzctNy4xODZ2Ni45NTJMMTIuMjEgMTlzMCAuODQtMS4xNjguODRsLTMuMjIyLjE4NmMtLjA5My0uMTg2IDAtLjY1My4zMjctLjc0NmwuODQtLjIzM1Y5Ljg1NEw3LjgyMiA5Ljc2Yy0uMDk0LS40Mi4xNC0xLjAyNi43OTMtMS4wNzNsMy40NTYtLjIzMyA0Ljc2NCA3LjI3OXYtNi40NGwtMS4yMTUtLjEzOWMtLjA5My0uNTE0LjI4LS44ODcuNzQ3LS45MzN6TTEuOTM2IDEuMDM1bDEzLjMxLS45OGMxLjYzNC0uMTQgMi4wNTUtLjA0NyAzLjA4Mi43bDQuMjQ5IDIuOTg2Yy43LjUxMy45MzQuNjUzLjkzNCAxLjIxM3YxNi4zNzhjMCAxLjAyNi0uMzczIDEuNjM0LTEuNjggMS43MjZsLTE1LjQ1OC45MzRjLS45OC4wNDctMS40NDgtLjA5My0xLjk2Mi0uNzQ3bC0zLjEyOS00LjA2Yy0uNTYtLjc0Ny0uNzkzLTEuMzA2LS43OTMtMS45NlYyLjY2N2MwLS44MzkuMzc0LTEuNTQgMS40NDctMS42MzJ6Ii8+PC9zdmc+"
     },
     "examples": [
       "Find the onboarding page in Notion and summarise it",
       "What is on the roadmap database for this quarter?",
-      "What do the comments on the launch plan say?",
-      "What were the action items from my meeting notes this week?"
+      "What do the comments on the launch plan say?"
     ]
   },
   "connection": {
@@ -44,25 +44,21 @@
         "notion-search",
         "notion-fetch",
         "notion-query-data-sources",
-        "notion-query-meeting-notes",
         "notion-get-comments",
         "notion-get-users",
-        "notion-get-teams",
-        "notion-get-self"
+        "notion-get-teams"
       ],
       "description": "Searches and reads the Notion workspace the signed-in account can see: wikis, specs, plans, project and meeting notes, databases such as task lists, trackers and roadmaps, and the comments on pages. A question naming a document without saying which system holds it may be here or in another document store: a filename does not say which, so ask every store.",
-      "owns": "You own the Notion workspace this server is signed in to: its pages, databases, meeting notes and comments, as far as that account can see. You only read; you cannot create or change anything in Notion. You do not own the source repository or the other document stores.\n\nSearch first, then fetch what you found. For a database, fetch it to learn its columns, then query it. Every page and database has a URL: when you report what a page says, GIVE THAT URL with it so the reader can open it.",
+      "owns": "You own the Notion workspace this server is signed in to: its pages, databases and comments, as far as that account can see. You only read; you cannot create or change anything in Notion. You do not own the source repository or the other document stores.\n\nSearch first with short, specific keywords, then fetch what you found. For a database, fetch it to learn its columns, then query it. Every page and database has a URL: when you report what a page says, GIVE THAT URL with it so the reader can open it.",
       "holds_documents": true
     },
     "tool_descriptions": {
-      "notion-search": "Search the Notion workspace, or look up a user. For content, start with {\"query\": \"...\"}. When the account has AI search, a short natural-language question also searches Notion and connected sources; otherwise use short keywords. Exact filters, an empty query, or a sort other than relevance stay on workspace search. Returns pages and databases with the URLs or IDs to pass to notion-fetch. Connected-app hits cannot be fetched. To find a person, set query_type to \"user\" and pass a name or email.",
-      "notion-fetch": "Read one Notion page, database, data source or saved database view by its URL or ID (from notion-search). Pages come back as Markdown with their path and last-edited time; check truncated before relying on the content, and pass an unknown_block_id back to this tool to read a missing subtree. A database lists its data sources as collection:// URLs: fetch that URL for its columns before calling notion-query-data-sources. A view:// URL returns that view's filters and sorts. Set include_discussions to true to see where a page has comments.",
-      "notion-query-data-sources": "Read rows from Notion data sources. mode \"rows\" reads one data source and keeps mentions and links (limit at most 100). mode \"view\" runs one saved view. The SQL mode queries one or more data sources; fetch the data source first and use only columns that schema shows. SQL can drop mention text, so read a property with rows mode or notion-fetch before treating it as the full text.",
-      "notion-query-meeting-notes": "Read the signed-in user's meeting notes. Filter by a title keyword. Returns meetings where that user is an attendee or the creator. Needs a Business plan or higher with Notion AI; other plans return an upgrade prompt instead of notes.",
+      "notion-search": "Search the Notion workspace by keywords: page titles, project names or distinctive words. Start with {\"query\": \"...\"} using short, specific keywords and leave out the optional filters unless needed. Returns pages and databases with the URLs or IDs to pass to notion-fetch. To find a person, set query_type to \"user\".",
+      "notion-fetch": "Read one Notion page, database, data source or saved database view by its URL or ID (from notion-search). Pages come back as Markdown with their path and last-edited time; check `truncated` before relying on the content. A database lists its data sources as collection:// URLs: fetch that URL for its columns before calling notion-query-data-sources. Set include_discussions to true to see where a page has comments.",
+      "notion-query-data-sources": "Read rows from a Notion database. First fetch the data source with notion-fetch to get its collection:// URL and its <sqlite-table> definition. The default mode is read-only SQLite: use only the table and column names that definition shows, and bind values with ? placeholders and params. mode \"view\" runs one saved view's filters and sorts; mode \"rows\" keeps links and formatting.",
       "notion-get-comments": "Read the comments and discussions on a Notion page, by its page ID. Page-level discussions by default; set include_all_blocks to true for comments on parts of the page, and include_resolved to true for resolved ones.",
-      "notion-get-users": "List the people in the Notion workspace (members and guests, with names and, where available, emails), or find one with {\"query\": \"name or email\"}. Pass a user id for one person, or \"self\" for the connected account.",
-      "notion-get-teams": "List the workspace's teamspaces, with their names and members' roles, or find one with {\"query\": \"name\"}.",
-      "notion-get-self": "Read who this connection is: workspace id and name, and the user id, name, type, and email when the user is a person. Call it with an empty object. Use it when a question asks which Notion workspace or account is connected."
+      "notion-get-users": "List the people in the Notion workspace (members and guests, with names and, where available, emails), or find one with {\"query\": \"name or email\"}. Use it to say who someone is.",
+      "notion-get-teams": "List the workspace's teamspaces, with their names and members' roles, or find one with {\"query\": \"name\"}."
     }
   }
 }
