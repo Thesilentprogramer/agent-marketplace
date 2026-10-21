@@ -1,0 +1,66 @@
+{
+  "format": 1,
+  "id": "granola",
+  "version": "1.0.0",
+  "kind": "mcp",
+  "service": {
+    "url": "https://mcp.granola.ai/mcp",
+    "timeout_seconds": 60
+  },
+  "needs_router": "0.6.0",
+  "publisher": "Kaliper",
+  "display": {
+    "name": "Granola",
+    "summary": "Searches and reads Granola meeting notes, transcripts, and shared screens for the signed-in account.",
+    "categories": [
+      "Meetings"
+    ],
+    "logo": {
+      "letter": "G",
+      "color": "#2F6B4F"
+    },
+    "examples": [
+      "What did we decide in yesterday's Acme call?",
+      "What meetings did I have with Sam last week?",
+      "What was on the pricing slide?"
+    ]
+  },
+  "connection": {
+    "method": "signin",
+    "provider": "Granola",
+    "signin": {
+      "client": "automatic"
+    },
+    "fields": []
+  },
+  "router": {
+    "source": "granola",
+    "source_config": {},
+    "agent": {
+      "name": "granola",
+      "source": "granola",
+      "tools": [
+        "query_granola_meetings",
+        "list_meeting_folders",
+        "list_meetings",
+        "get_meetings",
+        "get_meeting_attachment",
+        "get_meeting_transcript",
+        "get_account_info"
+      ],
+      "description": "Searches and reads Granola meeting notes in the signed-in account's active workspace: summaries, private notes, transcripts, and shared screens. A question about what was said in a Granola meeting belongs here.",
+      "owns": "You own Granola notes in the active workspace this account can see. You only read. You cannot switch workspace or sign out from here.\n\nList or query meetings, then get_meetings. Open get_meeting_transcript only when the notes are not enough.\n\nYou do not own Fireflies, Otter, or Fathom. You do not own Notion, even when a page is called meeting notes.",
+      "holds_documents": false,
+      "first_for": "Granola meeting notes and transcripts"
+    },
+    "tool_descriptions": {
+      "query_granola_meetings": "Ask Granola about meeting notes in the active workspace. Use this for a question across meetings.",
+      "list_meeting_folders": "List meeting folders this account can open, with id, title, description, and note count. Paid plans only.",
+      "list_meetings": "List meeting notes, with id, title, date, and attendees. Filter by folder on a paid plan. Then get_meetings.",
+      "get_meetings": "Read meeting notes: title, date, attendees, private notes, and the summary. Use this before the transcript.",
+      "get_meeting_attachment": "Read a screenshot shared in a meeting, such as a slide or a chart.",
+      "get_meeting_transcript": "Read a meeting's transcript. Paid plans only. Open this when the notes are not enough.",
+      "get_account_info": "Read the email, active workspace, and joined workspaces for this connection."
+    }
+  }
+}
