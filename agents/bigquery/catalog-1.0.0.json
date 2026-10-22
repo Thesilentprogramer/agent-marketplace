@@ -1,0 +1,99 @@
+{
+  "format": 1,
+  "id": "bigquery",
+  "version": "1.0.0",
+  "kind": "mcp",
+  "service": {
+    "url": "https://bigquery.googleapis.com/mcp",
+    "timeout_seconds": 60,
+    "max_result_chars": 200000
+  },
+  "needs_router": "0.7.0",
+  "publisher": "Kaliper",
+  "display": {
+    "name": "BigQuery",
+    "summary": "Reads and queries BigQuery datasets the signed-in Google account can see, and can run SQL that changes data.",
+    "categories": [
+      "Database"
+    ],
+    "logo": {
+      "letter": "BQ",
+      "color": "#4285F4"
+    },
+    "examples": [
+      "What datasets are in the analytics project?",
+      "How many rows did we load into orders yesterday?",
+      "Add a partition to the events table."
+    ]
+  },
+  "connection": {
+    "method": "signin",
+    "provider": "Google",
+    "signin": {
+      "client": "own-app",
+      "client_id_field": "BIGQUERY_CLIENT_ID",
+      "client_secret_field": "BIGQUERY_CLIENT_SECRET",
+      "scopes": [
+        "https://www.googleapis.com/auth/bigquery"
+      ],
+      "authorize_params": {
+        "access_type": "offline",
+        "prompt": "consent"
+      }
+    },
+    "fields": [
+      {
+        "key": "BIGQUERY_CLIENT_ID",
+        "label": "Client ID",
+        "type": "text",
+        "required": true,
+        "help": "From Google Auth Platform, Clients. The redirect URL must be this server's sign-in redirect."
+      },
+      {
+        "key": "BIGQUERY_CLIENT_SECRET",
+        "label": "Client secret",
+        "type": "password",
+        "required": true,
+        "help": "The client secret of that same OAuth client."
+      }
+    ]
+  },
+  "router": {
+    "source": "bigquery",
+    "source_config": {},
+    "agent": {
+      "name": "bigquery",
+      "source": "bigquery",
+      "tools": [
+        "list_dataset_ids",
+        "get_dataset_info",
+        "list_table_ids",
+        "get_table_info",
+        "execute_sql_readonly",
+        "execute_sql",
+        "get_query_results",
+        "get_job",
+        "cancel_job"
+      ],
+      "description": "Reads and queries BigQuery in the Google Cloud projects the signed-in account can see: datasets, tables, and SQL. A question about a BigQuery table or a warehouse query belongs here.",
+      "owns": "You own BigQuery data this Google account can see. List datasets, then tables, then run SQL. Prefer execute_sql_readonly for a SELECT. Use execute_sql only when the statement must change data or schema. If a query returns a job id and job_complete is false, poll get_query_results or cancel it with cancel_job.\n\nYou do not own Supabase, the source repository, or other Google products.",
+      "holds_documents": false,
+      "first_for": "BigQuery datasets, tables, and SQL",
+      "writes": [
+        "execute_sql",
+        "cancel_job"
+      ]
+    },
+    "tool_descriptions": {
+      "list_dataset_ids": "List BigQuery dataset ids and BigLake namespaces in one Google Cloud project. projectId is required. pageSize and pageToken page the results.",
+      "get_dataset_info": "Read metadata for one BigQuery dataset or BigLake namespace. Pass projectId and datasetId.",
+      "list_table_ids": "List table ids in one BigQuery dataset or BigLake namespace. Pass projectId and datasetId. pageSize and pageToken page the results.",
+      "get_table_info": "Read metadata for one BigQuery table or BigLake table, including its schema. Pass projectId, datasetId, and tableId.",
+      "execute_sql_readonly": "Run a read-only SQL query and return the rows. Only SELECT is allowed. Prefer this over execute_sql. Pass the GoogleSQL query and the projectId.",
+      "execute_sql": "Run any BigQuery SQL, including INSERT, UPDATE, DELETE, and CREATE, and return the result. Prefer execute_sql_readonly for a SELECT. Pass the query and the projectId.",
+      "get_query_results": "Read more rows from a query job. Use it only when execute_sql or execute_sql_readonly returned job_complete false with a job_id, or to page further rows with page_token. Do not call it when the query already returned every row.",
+      "get_job": "Read the status, statistics, and configuration of one BigQuery job by its job_id.",
+      "cancel_job": "Cancel a BigQuery job that is still running. Pass the job_id returned when job_complete was false."
+    }
+  }
+}
