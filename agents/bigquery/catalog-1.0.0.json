@@ -17,7 +17,8 @@
     ],
     "logo": {
       "letter": "BQ",
-      "color": "#4285F4"
+      "color": "#4285F4",
+      "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHJvbGU9ImltZyIgdmlld0JveD0iMCAwIDQ4IDQ4Ij48cmVjdCB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHJ4PSIxMCIgZmlsbD0iIzQyODVGNCIvPjx0ZXh0IHg9IjI0IiB5PSIzMSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjAiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNmZmZmZmYiPkJRPC90ZXh0Pjwvc3ZnPg=="
     },
     "examples": [
       "What datasets are in the analytics project?",
