@@ -17,7 +17,8 @@
     ],
     "logo": {
       "letter": "O",
-      "color": "#2BB5A0"
+      "color": "#2BB5A0",
+      "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHJvbGU9ImltZyIgdmlld0JveD0iMCAwIDQ4IDQ4Ij48cmVjdCB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHJ4PSIxMCIgZmlsbD0iIzJCQjVBMCIvPjx0ZXh0IHg9IjI0IiB5PSIzMSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNmZmZmZmYiPk88L3RleHQ+PC9zdmc+"
     },
     "examples": [
       "Which product meetings did I have last quarter?",
