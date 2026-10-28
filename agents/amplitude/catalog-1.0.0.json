@@ -1,0 +1,31 @@
+{
+  "format": 1,
+  "id": "amplitude",
+  "version": "1.0.0",
+  "kind": "mcp",
+  "service": {"url": "https://mcp.amplitude.com/mcp", "timeout_seconds": 60},
+  "needs_router": "0.7.0",
+  "publisher": "Kaliper",
+  "display": {
+    "name": "Amplitude",
+    "summary": "Queries Amplitude product analytics and manages dashboards for the signed-in organization.",
+    "categories": ["Analytics"],
+    "logo": {"letter": "A", "color": "#1D6EF2", "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCI+PHBhdGggZmlsbD0iIzFkNmVmMiIgZD0iTTI0IDRjMTEuMDUgMCAyMCA4Ljk1IDIwIDIwcy04Ljk1IDIwLTIwIDIwUzQgMzUuMDUgNCAyNCAxMi45NSA0IDI0IDR6Ii8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTEzIDMyLjVoNS4ybDIuMS01LjVoOC4xbDIuMSA1LjVINzM1TDI2LjQgMTVoLTQuOEwxMyAzMi41em04LjktOS43IDIuNS02LjUgMi41IDYuNWgtNXoiLz48L3N2Zz4="},
+    "examples": ["What drove signup conversion this month?", "Compare retention between these cohorts.", "Add this analysis to an Amplitude dashboard."]
+  },
+  "connection": {"method": "signin", "provider": "Amplitude", "signin": {"client": "automatic"}, "fields": []},
+  "router": {
+    "source": "amplitude", "source_config": {},
+    "agent": {
+      "name": "amplitude", "source": "amplitude", "tools": ["get_amplitude_context", "query_amplitude_data", "use_amp_dashboards"],
+      "description": "Reads Amplitude project context, runs product analytics, and manages dashboards for the signed-in organization.",
+      "owns": "You own Amplitude analytics and dashboards visible to this account. Read project context before querying. Dashboard changes require confirmation. You do not ingest production events.",
+      "holds_documents": false, "first_for": "Amplitude product analytics, funnels, retention, and dashboards", "writes": ["use_amp_dashboards"]
+    },
+    "tool_descriptions": {
+      "get_amplitude_context": "Read organization and project context, including business definitions and rules configured in Amplitude.",
+      "query_amplitude_data": "Run an Amplitude analytics query such as segmentation, funnel, retention, or experiment analysis.",
+      "use_amp_dashboards": "Create or edit Amplitude dashboards and their content. This can change Amplitude."
+    }
+  }
+}
