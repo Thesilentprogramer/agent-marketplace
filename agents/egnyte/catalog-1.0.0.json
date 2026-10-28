@@ -10,7 +10,7 @@
     "name": "Egnyte",
     "summary": "Searches and reads files, folders, and AI answers from Egnyte.",
     "categories": ["Documents", "Knowledge"],
-    "logo": { "letter": "E", "color": "#7AC143", "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJFZ255dGUiPjxwYXRoIGZpbGw9IiM3QUMxNDMiIGQ9Ik05IDE0aDQ2djlIMjB2N2gyOXY5SDIwdjdoMzV2OUg5eiIvPjxwYXRoIGZpbGw9IiMyMjIiIGQ9Ik05IDVoNDZ2Nkg5eiIvPjwvc3ZnPg==" },
+    "logo": { "letter": "E", "color": "#FFFFFF", "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJFZ255dGUiPjxwYXRoIGZpbGw9IiM3QUMxNDMiIGQ9Ik05IDE0aDQ2djlIMjB2N2gyOXY5SDIwdjdoMzV2OUg5eiIvPjxwYXRoIGZpbGw9IiMyMjIiIGQ9Ik05IDVoNDZ2Nkg5eiIvPjwvc3ZnPg==" },
     "examples": ["Find the latest security policy.", "Summarize this Egnyte document.", "What files mention Project Atlas?"]
   },
   "connection": { "method": "signin", "provider": "Egnyte", "signin": { "client": "automatic" }, "fields": [] },

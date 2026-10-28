@@ -10,7 +10,7 @@
     "name": "Guru",
     "summary": "Searches trusted company knowledge and creates or updates Guru cards.",
     "categories": ["Knowledge", "Documents"],
-    "logo": { "letter": "G", "color": "#00BDA5", "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJHdXJ1Ij48cGF0aCBmaWxsPSIjMDBCREE1IiBkPSJNMzIgNGw3IDE3IDE3LTctNyAxOCAxMSAxMC0xOSAxLTIgMTctMTEtMTQtMTUgMTAgNS0xOEw0IDMwbDE5LTR6Ii8+PGNpcmNsZSBjeD0iMzIiIGN5PSIzMiIgcj0iOCIgZmlsbD0iI2ZmZiIvPjwvc3ZnPg==" },
+    "logo": { "letter": "G", "color": "#FFFFFF", "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJHdXJ1Ij48cGF0aCBmaWxsPSIjMDBCREE1IiBkPSJNMzIgNGw3IDE3IDE3LTctNyAxOCAxMSAxMC0xOSAxLTIgMTctMTEtMTQtMTUgMTAgNS0xOEw0IDMwbDE5LTR6Ii8+PGNpcmNsZSBjeD0iMzIiIGN5PSIzMiIgcj0iOCIgZmlsbD0iI2ZmZiIvPjwvc3ZnPg==" },
     "examples": ["What is our refund policy?", "Find the onboarding checklist.", "Draft a Guru card for this process."]
   },
   "connection": { "method": "signin", "provider": "Guru", "signin": { "client": "automatic" }, "fields": [] },

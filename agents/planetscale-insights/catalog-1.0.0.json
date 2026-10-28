@@ -10,7 +10,7 @@
     "name": "PlanetScale Insights",
     "summary": "Reads PlanetScale query performance insights and schema recommendations without executing queries.",
     "categories": ["Database", "Analytics"],
-    "logo": {"letter": "P", "color": "#000000", "image": "data:image/svg+xml;base64,PHN2ZyByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+UGxhbmV0U2NhbGU8L3RpdGxlPjxwYXRoIGQ9Ik0wIDEyQzAgNS4zNzMgNS4zNzMgMCAxMiAwYzQuODczIDAgOS4wNjcgMi45MDQgMTAuOTQ3IDcuMDc3bC0xNS44NyAxNS44N2ExMS45ODEgMTEuOTgxIDAgMCAxLTEuOTM1LTEuMDk5TDE0Ljk5IDEySDEybC04LjQ4NSA4LjQ4NUExMS45NjIgMTEuOTYyIDAgMCAxIDAgMTJabTEyLjAwNCAxMkwyNCAxMi4wMDRDMjMuOTk4IDE4LjYyOCAyMy45OTggMTIuMDA0IDI0WiIvPjwvc3ZnPg=="},
+    "logo": {"letter": "P", "color": "#FFFFFF", "image": "data:image/svg+xml;base64,PHN2ZyByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+UGxhbmV0U2NhbGU8L3RpdGxlPjxwYXRoIGQ9Ik0wIDEyQzAgNS4zNzMgNS4zNzMgMCAxMiAwYzQuODczIDAgOS4wNjcgMi45MDQgMTAuOTQ3IDcuMDc3bC0xNS44NyAxNS44N2ExMS45ODEgMTEuOTgxIDAgMCAxLTEuOTM1LTEuMDk5TDE0Ljk5IDEySDEybC04LjQ4NSA4LjQ4NUExMS45NjIgMTEuOTYyIDAgMCAxIDAgMTJabTEyLjAwNCAxMkwyNCAxMi4wMDRDMjMuOTk4IDE4LjYyOCAyMy45OTggMTIuMDA0IDI0WiIvPjwvc3ZnPg=="},
     "examples": ["Which queries are slow in production?", "Show schema recommendations for this database.", "What query patterns use the most time?"]
   },
   "connection": {"method": "signin", "provider": "PlanetScale", "signin": {"client": "automatic"}, "fields": []},
