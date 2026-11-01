@@ -60,16 +60,22 @@ REFUSALS = ("invalid_grant", "invalid_client", "unauthorized_client")
 WRONG_CLOCK = "Token must be a short-lived token"
 # A 403 from Drive with one of these reasons is a limit, not a refusal.
 LIMITS = frozenset({"rateLimitExceeded", "userRateLimitExceeded", "dailyLimitExceeded", "quotaExceeded",
-                    "RATE_LIMIT_EXCEEDED"})
+                    "RATE_LIMIT_EXCEEDED", "RESOURCE_EXHAUSTED"})
 ABOUT_URL = "https://www.googleapis.com/drive/v3/about"
 
 
-def _reason(response: httpx.Response) -> str:
+def _reasons(response: httpx.Response) -> set[str]:
+    """Every reason Google gives: the older `errors[].reason`, the newer
+    `details[].reason`, and the newer `status` word."""
     try:
-        errors = response.json()["error"]["errors"]
-        return str(errors[0].get("reason") or "")
-    except (ValueError, KeyError, IndexError, TypeError, AttributeError):
-        return ""
+        error = response.json()["error"]
+        found = {str(item.get("reason")) for key in ("errors", "details") for item in (error.get(key) or [])
+                 if isinstance(item, dict) and item.get("reason")}
+        if error.get("status"):
+            found.add(str(error["status"]))
+        return found
+    except (ValueError, KeyError, TypeError, AttributeError):
+        return set()
 
 
 def check_login(values: Mapping[str, str], client: httpx.Client | None = None,
@@ -103,8 +109,9 @@ def check_login(values: Mapping[str, str], client: httpx.Client | None = None,
     if response.status_code == 200:
         email = ((response.json() or {}).get("user") or {}).get("emailAddress") or "the service account"
         return login.result(login.OK, f"Google took this key ({email})")
-    if response.status_code == 403 and _reason(response) in LIMITS:
-        return login.result(login.UNREACHABLE, f"Google's {_reason(response)} limit was hit; try again later")
+    limit = _reasons(response) & LIMITS
+    if response.status_code == 403 and limit:
+        return login.result(login.UNREACHABLE, f"Google's {sorted(limit)[0]} limit was hit; try again later")
     return login.from_status("Google", response, refused=(401, 403))
 
 

@@ -135,3 +135,10 @@ def test_the_route_never_sends_back_a_value_it_checked(serve):
 
     code, answer = post(serve(check), {"values": {"TEXTQL_API_KEY": "tql\nkey-with-a-line-break"}})
     assert code == 200 and "key-with-a-line-break" not in answer["detail"] and "tql" not in answer["detail"]
+
+
+def test_a_401_body_quoting_the_key_past_200_characters_does_not_leak_it():
+    key = "tql-key-0123456789-abcdefghij"
+    client, _ = textql(401, text="y" * 195 + key)
+    answer = server._run_check(lambda values: check_login(values, client), {"TEXTQL_API_KEY": key})
+    assert answer["state"] == "refused" and "tql-k" not in answer["detail"] and "abcdefghij" not in answer["detail"]

@@ -32,14 +32,16 @@ DETAIL_CHARS = 300
 
 
 def result(state: str, detail: str = "") -> dict[str, str]:
-    return {"state": state, "detail": redact(detail, DETAIL_CHARS)}
+    """A check's answer. The detail is cleaned only in run(): values first, then
+    redact() and the length cut, so no cut or rewrite can leave part of a value."""
+    return {"state": state, "detail": detail}
 
 
 def from_status(vendor: str, response: httpx.Response, refused: Collection[int] = (401, 403)) -> dict[str, str]:
     """A vendor's answer read conservatively: 2xx took the login, a status in
     `refused` refused it, anything else says nothing about it."""
     status = response.status_code
-    said = response.text[:200]
+    said = response.text
     if 200 <= status < 300:
         return result(OK, f"{vendor} took this login")
     if status in refused:
@@ -87,4 +89,4 @@ def run(check: Callable[[Mapping[str, str]], dict], values: Mapping[str, str]) -
             state, detail = answer["state"], str(answer.get("detail") or "")
         else:
             state, detail = UNREACHABLE, f"the check gave an answer this kit does not know: {answer!r}"
-    return result(state, without_values(detail, values))
+    return result(state, redact(without_values(detail, values), DETAIL_CHARS))

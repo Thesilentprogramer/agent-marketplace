@@ -110,3 +110,13 @@ def test_main_serves_the_check(monkeypatch):
     monkeypatch.setattr(server, "serve", lambda *args, **kwargs: got.update(kwargs))
     server.main()
     assert got["check"] is check_login
+
+
+@pytest.mark.parametrize("body", [
+    {"error": {"code": 403, "status": "RESOURCE_EXHAUSTED", "details": [{"reason": "RATE_LIMIT_EXCEEDED"}]}},
+    {"error": {"code": 403, "details": [{"@type": "x", "reason": "rateLimitExceeded"}]}},
+    {"error": {"code": 403, "status": "RESOURCE_EXHAUSTED"}},
+])
+def test_a_limit_in_googles_newer_error_format_is_not_a_refusal(minted, tmp_path, body):
+    client, _ = drive(403, body)
+    assert check_login({"GOOGLE_SA_JSON": KEY}, client, key_dir=tmp_path)["state"] == "unreachable"

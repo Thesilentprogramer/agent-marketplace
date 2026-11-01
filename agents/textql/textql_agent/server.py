@@ -39,7 +39,7 @@ CHECK_TIMEOUT_SECONDS = 15.0
 
 
 def _result(state: str, detail: str = "") -> dict[str, str]:
-    return {"state": state, "detail": redact(detail, 300)}
+    return {"state": state, "detail": detail}
 
 
 def check_login(values: Mapping[str, str], client: httpx.Client | None = None) -> dict[str, str]:
@@ -57,7 +57,7 @@ def check_login(values: Mapping[str, str], client: httpx.Client | None = None) -
             response = own.get(f"{base}/v2/connectors", headers=headers)
     else:
         response = client.get(f"{base}/v2/connectors", headers=headers)
-    said = response.text[:200]
+    said = response.text
     if response.status_code == 401:
         return _result(REFUSED, f"TextQL refused this key (401: {said})")
     if response.status_code != 200:
@@ -101,7 +101,7 @@ def _run_check(check: Callable[[Mapping[str, str]], dict], values: Mapping[str, 
             state, detail = answer["state"], str(answer.get("detail") or "")
         else:
             state, detail = UNREACHABLE, f"the check gave an answer this service does not know: {answer!r}"
-    return _result(state, _without_values(detail, values))
+    return _result(state, redact(_without_values(detail, values), 300))
 
 
 def build_handler(ask: Callable[[str], TextQLAnswer] | None,

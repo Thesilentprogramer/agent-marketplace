@@ -73,7 +73,7 @@ def check_login(values: Mapping[str, str], client: httpx.Client | None = None) -
     error = str(body.get("error") or "")
     if error in REFUSALS:
         return login.result(login.REFUSED, f"Zoho refused this login ({error})")
-    return login.result(login.UNREACHABLE, f"Zoho answered {response.status_code} {error or response.text[:200]}, "
+    return login.result(login.UNREACHABLE, f"Zoho answered {response.status_code} {error or response.text}, "
                                            "which says nothing about the login")
 
 

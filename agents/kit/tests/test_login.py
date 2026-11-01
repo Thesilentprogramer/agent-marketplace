@@ -99,7 +99,8 @@ def test_an_agent_may_name_its_own_refusals():
 
 
 def test_the_detail_carries_no_token_and_is_short():
-    detail = login.from_status("Acme", answering(401, text="bad: Bearer ghp_abcdefghijklmnop " + "x" * 900))["detail"]
+    detail = login.run(lambda values: login.from_status("Acme", answering(401, text="bad: Bearer ghp_abcdefghijklmnop " + "x" * 900)),
+                       {})["detail"]
     assert "ghp_abcdefghijklmnop" not in detail and len(detail) <= 301
 
 
@@ -122,3 +123,21 @@ def test_the_detail_never_carries_a_value_it_was_checked_with_in_any_shape():
     assert answer["state"] == "refused"
     assert "tok-1" not in answer["detail"] and "second-line-of-the-key" not in answer["detail"]
     assert "b3BzQGFjbWUuZXhhbXBsZT" not in answer["detail"]
+
+
+def test_a_value_the_vendor_quotes_across_the_old_cut_is_still_taken_out():
+    token = "ATATT3xFfGF0-secret-token-0123456789"
+    said = "x" * 190 + token
+
+    def check(values):
+        return login.from_status("Jira", answering(401, text=said))
+
+    answer = login.run(check, {"JIRA_API_TOKEN": token})
+    assert answer["state"] == "refused" and "ATATT3" not in answer["detail"] and "secret-token" not in answer["detail"]
+
+
+def test_a_value_redact_would_alter_is_taken_out_before_redact_runs():
+    url = "https://workdrive.example/mcp/SECRETPATHKEY123/message?k=1"
+    answer = login.run(lambda values: login.result(login.UNREACHABLE, f"could not reach {url}"),
+                       {"WORKDRIVE_MCP_URL": url})
+    assert "SECRETPATHKEY123" not in answer["detail"]
