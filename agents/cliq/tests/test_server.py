@@ -6,7 +6,7 @@ import pytest
 from cliq_agent.server import build_tools
 from cliq_agent.zoho_cliq import CliqError, CliqReader
 
-CATALOG = json.loads((Path(__file__).resolve().parents[1] / "catalog-2.0.0.json").read_text(encoding="utf-8"))
+CATALOG = json.loads((Path(__file__).resolve().parents[1] / "catalog-2.0.1.json").read_text(encoding="utf-8"))
 ENV = {"ZOHO_DC": "in", "ZOHO_CLIENT_ID": "1000.x", "ZOHO_CLIENT_SECRET": "s", "ZOHO_REFRESH_TOKEN": "1000.r"}
 
 
