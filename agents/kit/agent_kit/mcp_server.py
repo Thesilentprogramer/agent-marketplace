@@ -5,6 +5,7 @@ router. The wire is MCP's streamable HTTP with plain JSON replies:
 
   POST /mcp   initialize, notifications/initialized, tools/list, tools/call
   GET  /health  200 {"ok": true} when the agent can work
+  POST /check   {} or {"values": {...}}: does the vendor take the login? (agent_kit/login.py)
 
 A tool that returns rows (response_format="content_and_artifact") sends its
 text as `content` and its rows as `structuredContent: {"table": {...}}`, so the
@@ -17,12 +18,13 @@ but nothing is kept per session.
 from __future__ import annotations
 
 import json
+import os
 import time
 import uuid
-from collections.abc import Sequence
+from collections.abc import Callable, Mapping, Sequence
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
-from agent_kit import auth
+from agent_kit import auth, login
 from agent_kit.log import log, redact
 
 PROTOCOL_VERSION = "2025-06-18"
@@ -65,9 +67,12 @@ def call(tool, arguments: dict, request: str | None = None, run: str | None = No
     return result
 
 
-def build_handler(tools: Sequence, ready_error: str | None = None, name: str = "agent") -> type[BaseHTTPRequestHandler]:
+def build_handler(tools: Sequence, ready_error: str | None = None, name: str = "agent",
+                  check: Callable[[Mapping[str, str]], dict] | None = None) -> type[BaseHTTPRequestHandler]:
     """`ready_error` set means the agent cannot work (a missing login): /health
-    says so. Callers pass no tools in that case; tools/list lists what it is given."""
+    says so. Callers pass no tools in that case; tools/list lists what it is given.
+    `check` asks the vendor whether it takes a login (POST /check); without one
+    there is no such route, as in every image before it existed."""
     by_name = {tool.name: tool for tool in tools}
 
     class Handler(BaseHTTPRequestHandler):
@@ -97,8 +102,39 @@ def build_handler(tools: Sequence, ready_error: str | None = None, name: str = "
             else:
                 self._json(404, {"error": f"no route {self.path}"})
 
+        def _check(self) -> None:
+            try:
+                length = int(self.headers.get("content-length") or 0)
+            except ValueError:
+                length = -1
+            if not 0 <= length <= MAX_BODY_BYTES:
+                self._json(413 if length > MAX_BODY_BYTES else 400, {"error": "bad content-length"})
+                return
+            try:
+                body = json.loads(self.rfile.read(length) or b"{}")
+            except ValueError:
+                body = None
+            if not isinstance(body, dict):
+                self._json(400, {"error": "send a JSON object"})
+                return
+            typed = body.get("values")
+            if typed is None:
+                values, source = dict(os.environ), "saved"
+            elif isinstance(typed, dict) and all(isinstance(k, str) and isinstance(v, str) for k, v in typed.items()):
+                values, source = typed, "typed"
+            else:
+                self._json(400, {"error": "values must be an object of text"})
+                return
+            answer = login.run(check, values)
+            # Which agent, what it found and where the values came from: never a value.
+            log("INFO", "login", "check", agent=name, state=answer["state"], values=source)
+            self._json(200, answer)
+
         def do_POST(self) -> None:  # noqa: N802
             ids = {"request": self.headers.get("x-request-id") or None, "run": self.headers.get("x-run-id") or None}
+            if self.path == "/check" and check is not None:
+                self._check()
+                return
             if self.path != "/mcp":
                 self._json(404, {"error": f"no route {self.path}"})
                 return
@@ -169,7 +205,8 @@ def build_handler(tools: Sequence, ready_error: str | None = None, name: str = "
     return Handler
 
 
-def serve(tools: Sequence, port: int, ready_error: str | None = None, name: str = "agent") -> None:
+def serve(tools: Sequence, port: int, ready_error: str | None = None, name: str = "agent",
+          check: Callable[[Mapping[str, str]], dict] | None = None) -> None:
     state = "ready" if not ready_error else ready_error
     log("INFO" if not ready_error else "WARN", "mcp", "listening", agent=name, port=port, state=state)
-    ThreadingHTTPServer(("0.0.0.0", port), build_handler(tools, ready_error, name)).serve_forever()
+    ThreadingHTTPServer(("0.0.0.0", port), build_handler(tools, ready_error, name, check)).serve_forever()
