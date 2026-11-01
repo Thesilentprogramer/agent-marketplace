@@ -5,7 +5,7 @@ from pathlib import Path
 
 from gdocs_agent.server import build_tools, key_path
 
-CATALOG = json.loads((Path(__file__).resolve().parents[1] / "catalog-2.0.0.json").read_text(encoding="utf-8"))
+CATALOG = json.loads((Path(__file__).resolve().parents[1] / "catalog-2.0.4.json").read_text(encoding="utf-8"))
 KEY = '{"type": "service_account", "client_email": "reader@example.invalid"}'
 
 
