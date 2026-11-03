@@ -17,13 +17,16 @@ from collections.abc import Mapping
 
 import httpx
 
+from agent_kit import login
 from agent_kit.mcp_server import serve
 from agent_kit.settings import credential, missing
-from workdrive_agent.mcp import MCPClient, refresh_token_provider
+from workdrive_agent.mcp import MCPClient, MCPError, discover_token_endpoint, refresh_token_provider
 from workdrive_agent.workdrive import WorkDriveReader, make_workdrive_tools
 from workdrive_agent.workdrive_direct import WorkDriveDirect
 
 KEYS = ("WORKDRIVE_MCP_URL", "WORKDRIVE_CLIENT_ID", "WORKDRIVE_REFRESH_TOKEN")
+# Zoho's token errors that mean the login itself is no good (as the Cliq agent's).
+REFUSALS = frozenset({"invalid_code", "invalid_client", "invalid_client_secret", "unauthorized_client", "invalid_grant"})
 HTTP_TIMEOUT_SECONDS = 30.0
 
 
@@ -48,9 +51,47 @@ def build_tools(env: Mapping[str, str], client: httpx.Client | None = None) -> t
     return list(make_workdrive_tools(reader, content)), None
 
 
+def check_login(values: Mapping[str, str], client: httpx.Client | None = None) -> dict[str, str]:
+    """Find the token endpoint as the tools do, then one refresh of the token."""
+    problem = missing(values, KEYS)
+    if problem:
+        return login.result(login.REFUSED, problem)
+    url = credential(values, "WORKDRIVE_MCP_URL")
+    try:
+        parsed = httpx.URL(url)
+    except httpx.InvalidURL:
+        parsed = None
+    if parsed is None or parsed.scheme != "https" or not parsed.host:
+        return login.result(login.REFUSED, "WORKDRIVE_MCP_URL is not an address")
+    with login.http(client) as http:
+        try:
+            endpoint = discover_token_endpoint(url, http)
+        except MCPError as error:
+            return login.result(login.UNREACHABLE, f"could not find WorkDrive's token address: {error}")
+        # The form refresh_token_provider sends: a public client, so no secret.
+        response = http.post(endpoint, data={
+            "grant_type": "refresh_token",
+            "refresh_token": credential(values, "WORKDRIVE_REFRESH_TOKEN"),
+            "client_id": credential(values, "WORKDRIVE_CLIENT_ID"),
+        })
+    try:
+        body = response.json()
+    except ValueError:
+        body = None
+    if not isinstance(body, dict):
+        return login.from_status("Zoho", response, refused=())
+    if body.get("access_token"):
+        return login.result(login.OK, "Zoho took this login for WorkDrive")
+    error = str(body.get("error") or "")
+    if error in REFUSALS:
+        return login.result(login.REFUSED, f"Zoho refused this login ({error})")
+    return login.result(login.UNREACHABLE, f"Zoho answered {response.status_code} {error or response.text}, "
+                                           "which says nothing about the login")
+
+
 def main() -> None:
     tools, problem = build_tools(os.environ)
-    serve(tools, int(os.environ.get("PORT") or 8080), problem, name="workdrive")
+    serve(tools, int(os.environ.get("PORT") or 8080), problem, name="workdrive", check=check_login)
 
 
 if __name__ == "__main__":

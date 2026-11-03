@@ -8,7 +8,7 @@ from gdrive_agent.server import build_tools, key_path
 KEY = '{"type": "service_account", "client_email": "reader@example.invalid"}'
 
 
-CATALOG = json.loads((Path(__file__).resolve().parents[1] / "catalog-1.0.0.json").read_text(encoding="utf-8"))
+CATALOG = json.loads((Path(__file__).resolve().parents[1] / "catalog-1.0.4.json").read_text(encoding="utf-8"))
 
 
 def test_the_server_offers_exactly_the_tools_its_catalog_entry_names(tmp_path):

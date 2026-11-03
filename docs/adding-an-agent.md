@@ -24,6 +24,13 @@ and calls `agent_kit.mcp_server.serve(...)`; the Dockerfile builds from
 - **An empty search:** return `agent_kit.rows.nothing_found(what, where)`. The
   router listens for those words to say what was searched and to look once more.
 - **/health** answers 503 until every login it needs is set (`agent_kit.settings.missing`).
+- **POST /check** says whether the vendor takes the login, for the admin page's
+  Test and Save. Write `check_login(values, client=None) -> dict` in `server.py`:
+  ONE cheap request to the vendor, answered with `agent_kit.login.result(...)` or
+  `agent_kit.login.from_status(...)`, and pass `check=check_login` to `serve`. Only
+  a refusal the vendor makes plain is `refused` (Save then turns the agent off);
+  a timeout, a rate limit, a 5xx or an unexpected reply is `unreachable`. A
+  `remote` agent answers the same route itself (see `agents/textql`).
 
 ## 3. Write its entry: `agents/<id>/catalog-<version>.json`
 

@@ -138,7 +138,7 @@ def test_the_default_unpacked_limit_fits_the_container():
 
     from gdrive_agent.files import MAX_UNZIPPED_BYTES
 
-    entry = json.loads((Path(__file__).resolve().parents[1] / "catalog-1.0.0.json").read_text())
+    entry = json.loads((Path(__file__).resolve().parents[1] / "catalog-1.0.4.json").read_text())
     peak_mb = 22 * MAX_UNZIPPED_BYTES / (1024 * 1024) + 75
     assert peak_mb <= entry["service"]["memory_mb"]
 

@@ -24,7 +24,7 @@ rytangle one on port 55432. Create it once:
 
     docker exec proto_kb_pg sh -c 'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c "create database catalog_test"'
     uv run pytest
-    for a in kit jira github slack cliq workdrive gdocs textql; do (cd agents/$a && uv run pytest -q); done
+    for a in kit jira github slack cliq workdrive gdocs gdrive textql; do (cd agents/$a && uv run pytest -q); done
 
 Or point `CATALOG_TEST_DATABASE_URL` at another `*_test` database.
 
@@ -54,9 +54,9 @@ How to write one, and every entry key the platform reads: [docs/adding-an-agent.
 
 | Folder | Kind | What |
 |---|---|---|
-| `agents/kit` | — | shared: serves an agent's LangChain tools over MCP (`POST /mcp`, `GET /health`), plus the rows/cache/settings helpers |
+| `agents/kit` | — | shared: serves an agent's LangChain tools over MCP (`POST /mcp`, `GET /health`) and its login check (`POST /check`, `agent_kit/login.py`), plus the rows/cache/settings helpers |
 | `agents/jira`, `github`, `slack`, `cliq`, `workdrive`, `gdocs` | `mcp` | the router's own tool code, copied (only helper imports differ; Cliq's read limit is per minute) |
-| `agents/textql` | `remote` | TextQL's Ana behind `POST /ask` |
+| `agents/textql` | `remote` | TextQL's Ana behind `POST /ask`, and its own `POST /check` |
 
 Each folder holds its catalog entry (`catalog-<version>.json`), so the package
 and the entry it serves travel together, and a test checks the server offers
