@@ -11,6 +11,23 @@ This is a product design for the next connection type, not a catalog of servers 
 
 The bridge is a **future Kaliper product**, not a vendor-hosted MCP or an existing marketplace entry. A gateway run by another company is a separate hosting model and should not be relabelled vendor-hosted.
 
+## Which sources can be added
+
+"Add" means a supported Kaliper connection, not necessarily a direct marketplace catalog. No customer-hosted source is ready to publish in the current fixed-URL catalog. Start with the paths below; keep the rest in the guide until the matching connection type exists.
+
+| Source | Classification | Earliest supported path | Why it is not a direct catalog today |
+|---|---|---|---|
+| Grafana Cloud | Direct vendor-hosted candidate | Verify OAuth, read-only tool subset, and live `tools/list`, then add a fixed-URL catalog. | [Grafana's hosted MCP](https://grafana.com/docs/grafana-cloud/ai-tools/mcp-servers/cloud-mcp/) uses `https://mcp.grafana.com/mcp`; this is distinct from self-hosted Grafana. It is a candidate, not an integrated catalog. |
+| Snowflake-managed MCP | Vendor-managed account URL | Add the per-connection vendor URL wizard first; verify the account URL, OAuth configuration, role grants, and read-only tools. | Each customer has an account-specific URL and security integration; there is no shared MCP URL. |
+| Databricks managed MCP | Vendor-managed workspace URL | Add the per-connection vendor URL wizard first; enforce read-only SQL policy and verify tools. | Each customer has a workspace-specific URL and permissions. |
+| PostgreSQL | Customer-hosted bridge pilot | Build a reviewed read-only adapter and outbound bridge, then offer a guided connection. | The reference MCP is [archived](https://github.com/modelcontextprotocol/servers-archived/blob/main/src/postgres/README.md) and runs near the database; it is not a vendor-hosted service. |
+| Local files and private document stores | Local/private bridge pilot | Use explicit directory allowlists and the official filesystem MCP's read-only mode behind the bridge. | The [filesystem MCP](https://github.com/modelcontextprotocol/servers/blob/main/src/filesystem/README.md) runs on the customer's machine or network. |
+| Jira Data Center | Customer-hosted bridge pilot | Add a reviewed read-only adapter after the bridge pilot. | Jira Cloud's existing remote MCP does not serve private Data Center installations. |
+| MySQL, SQLite, Redis, GitHub Enterprise, private wikis, internal REST APIs, Prometheus, self-hosted Grafana and Sentry | Customer-hosted later | Assess a separate adapter for each source after the first bridge pilots. | Endpoints, identities, permissions, and network reachability differ per customer. Do not promise one-click onboarding yet. |
+| Playwright, Chrome DevTools, arbitrary custom MCP servers | Local-only or unreviewed | Advanced private bridge exploration only. | Browser side effects and unrestricted tool surfaces need a separate policy and sandbox design. |
+
+For Grafana Cloud, grant only the read and query tool areas needed by the workspace; leave write access off. The [hosted setup guide](https://grafana.com/docs/grafana-cloud/ai-tools/mcp-servers/cloud-mcp/) says the endpoint uses Streamable HTTP and OAuth 2.1. A catalog still needs an authenticated tool probe and Kaliper OAuth compatibility check before it can be published. The self-managed [Grafana MCP](https://grafana.com/docs/grafana/latest/ai-tools/mcp/) remains a bridge candidate.
+
 ## Proposed connection wizard
 
 The page should use the same progressive guide layout as the [Google Docs catalog](../agents/gdocs/catalog-2.0.3.json): one action per step, prerequisites, access summary, vendor links, test, and troubleshooting.
