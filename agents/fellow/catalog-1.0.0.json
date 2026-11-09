@@ -50,8 +50,7 @@
         "get_channel_details",
         "read_agenda",
         "search_agenda_templates",
-        "get_agenda_template",
-        "read_resource"
+        "get_agenda_template"
       ],
       "description": "Reads the meeting notes, transcripts, agendas, action items and channels visible to the signed-in Fellow user. Requires the Fellow workspace admin to enable MCP connections.",
       "owns": "You own Fellow meeting context the signed-in user is allowed to see. Search meetings first, then fetch the summary or transcript for a specific meeting. You can read action items and agendas but cannot edit them. Include a source link when Fellow provides one. You do not own other meeting apps.",
@@ -67,8 +66,7 @@
       "get_channel_details": "Get the name, description, and type of a Fellow channel.",
       "read_agenda": "Read the agenda of a meeting.",
       "search_agenda_templates": "Search agenda templates by title.",
-      "get_agenda_template": "Read a specific agenda template.",
-      "read_resource": "Fetch a fellow:// resource."
+      "get_agenda_template": "Read a specific agenda template."
     }
   }
 }

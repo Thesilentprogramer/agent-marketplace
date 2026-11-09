@@ -43,9 +43,10 @@
       "name": "clickhouse",
       "source": "clickhouse",
       "tools": [
+        "get_organizations",
+        "get_services_list",
         "list_databases",
         "list_tables",
-        "describe_table",
         "run_select_query"
       ],
       "description": "Queries ClickHouse Cloud analytics data through the official hosted MCP server.",
@@ -54,9 +55,10 @@
       "first_for": "ClickHouse Cloud hosted MCP workflows"
     },
     "tool_descriptions": {
+      "get_organizations": "List ClickHouse Cloud organizations accessible to the signed-in user.",
+      "get_services_list": "List the services in an organization to find a service ID.",
       "list_databases": "List accessible ClickHouse databases.",
-      "list_tables": "List tables in a database.",
-      "describe_table": "Describe a table schema.",
+      "list_tables": "List tables and their column definitions in a database.",
       "run_select_query": "Run a read-only SELECT query."
     }
   }
