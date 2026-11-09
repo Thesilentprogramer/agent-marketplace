@@ -1,8 +1,14 @@
 # ClickHouse Cloud setup reference
 
-**Draft reference, not a tested catalog guide.** The image is a screenshot of [ClickHouse's public Remote MCP documentation](https://clickhouse.com/docs/products/cloud/features/ai-ml/mcp/remote-mcp#enable-remote-mcp-server), captured 2026-11-09. It contains a vendor-provided example of the Cloud **Connect with MCP** menu, not a screenshot from a Kaliper-connected account.
+**Draft reference, not a tested catalog guide.** These focused screenshots come from [ClickHouse's public Remote MCP documentation](https://clickhouse.com/docs/products/cloud/features/ai-ml/mcp/remote-mcp#enable-remote-mcp-server), reviewed 2026-11-09. They show the vendor's example service, not a Kaliper-connected account.
 
-![ClickHouse documentation showing Connect with MCP](vendor-doc-reference.png)
+1. Select **MCP** in the service's **Connect with** menu.
+
+   ![ClickHouse Cloud's Connect with menu with MCP visible](01-select-mcp.webp)
+
+2. Turn on **Enable Model Context Protocol** for the service.
+
+   ![ClickHouse Cloud's Enable Model Context Protocol switch and remote URL](02-enable-mcp.webp)
 
 ## Proposed customer path
 
@@ -11,4 +17,4 @@
 3. Approve access with the ClickHouse user who can see that service.
 4. Use **Test connection**, ask for accessible services and databases, then **Save and turn on**.
 
-Before adding `connection.guide`, capture the actual admin and OAuth screens on a fresh account, verify the resulting tools, and have a second person complete this path. The public documentation screenshot must be replaced with a screenshot from that run.
+Before adding `connection.guide`, capture the actual admin and OAuth screens on a fresh account, verify the resulting tools, and have a second person complete this path. Replace these documentation examples with screenshots from that run.

@@ -1,8 +1,10 @@
 # MotherDuck setup reference
 
-**Draft reference, not a tested catalog guide.** The image is a screenshot of [MotherDuck's public MCP documentation](https://motherduck.com/docs/sql-reference/mcp/), captured 2026-11-09. It documents the fixed remote URL and OAuth support; it does not show Kaliper's authorization screen.
+**Draft reference, not a tested catalog guide.** This focused connector image comes from [MotherDuck's published walkthrough](https://motherduck.com/blog/developer-dad-does-disney/), reviewed 2026-11-09. It shows MotherDuck in **Claude's** connector picker, not Kaliper's authorization screen.
 
-![MotherDuck documentation identifying its remote MCP endpoint](vendor-doc-reference.png)
+The **+** control adds MotherDuck in Claude. In Kaliper, use **Sign in with MotherDuck** instead.
+
+![Claude's connector picker with the MotherDuck add control highlighted](01-add-connector.webp)
 
 ## Proposed customer path
 

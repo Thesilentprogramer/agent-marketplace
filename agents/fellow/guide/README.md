@@ -1,8 +1,10 @@
 # Fellow setup reference
 
-**Draft reference, not a tested catalog guide.** The image is a screenshot of [Fellow's public MCP help page](https://help.fellow.ai/en/articles/12622641-fellow-s-mcp-server#h_932a3d9dac), captured 2026-11-09. The settings image inside it was supplied by Fellow. It is not a screenshot from a Kaliper-connected workspace.
+**Draft reference, not a tested catalog guide.** This focused settings image comes from [Fellow's public MCP help page](https://help.fellow.ai/en/articles/12622641-fellow-s-mcp-server#h_932a3d9dac), reviewed 2026-11-09. It is a vendor example, not a Kaliper-connected workspace.
 
-![Fellow documentation showing the MCP connection setting](vendor-doc-reference.png)
+Turn on **MCP connection** under **Workspace Settings → Fellow MCP**.
+
+![Fellow workspace settings showing the MCP connection switch](01-enable-connection.webp)
 
 ## Proposed customer path
 

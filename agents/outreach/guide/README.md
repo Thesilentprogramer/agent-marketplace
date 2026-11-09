@@ -1,8 +1,10 @@
 # Outreach setup reference
 
-**Draft reference, not a tested catalog guide.** The image is a screenshot of [Outreach's public MCP support article](https://support.outreach.io/support/solutions/articles/159000429906-why-is-the-mcp-toggle-grayed-out-), captured 2026-11-09. Its embedded settings image was supplied by Outreach; it is not from a Kaliper-connected organization.
+**Draft reference, not a tested catalog guide.** This focused settings image comes from [Outreach's public MCP support article](https://support.outreach.io/support/solutions/articles/159000429906-why-is-the-mcp-toggle-grayed-out-), reviewed 2026-11-09. It is a vendor example, not a Kaliper-connected organization.
 
-![Outreach documentation showing the MCP Server toggle in Gen AI settings](vendor-doc-reference.png)
+Turn on **Enable MCP Server** under **Administration → Organization → Org info → Gen AI**.
+
+![Outreach administration showing the MCP Server switch](01-enable-mcp.webp)
 
 ## Proposed customer path
 

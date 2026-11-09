@@ -1,8 +1,10 @@
 # Clarify setup reference
 
-**Draft reference, not a tested catalog guide.** The image is a screenshot of [Clarify's public MCP help page](https://docs.clarify.ai/en/articles/13367278-clarify-mcp#h_claude_step2), captured 2026-11-09. Its example authorization screen is for **Claude**, not Kaliper. Do not use that image as a Kaliper OAuth screenshot.
+**Draft reference, not a tested catalog guide.** This focused authorization example comes from [Clarify's public MCP help page](https://docs.clarify.ai/en/articles/13367278-clarify-mcp#h_claude_step2), reviewed 2026-11-09. It is a **Claude** authorization example, not a Kaliper OAuth screenshot.
 
-![Clarify documentation showing a Claude authorization example](vendor-doc-reference.png)
+Choose the organization to authorize, then choose **Allow access**. The actual Kaliper authorization prompt must be checked separately.
+
+![Clarify authorization example showing the organization selector and Allow access](01-select-organization.webp)
 
 ## Proposed customer path
 

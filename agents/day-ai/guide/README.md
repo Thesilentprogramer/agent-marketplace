@@ -1,8 +1,6 @@
 # Day AI setup reference
 
-**Draft reference, not a tested catalog guide.** The image is a screenshot of [Day AI's public MCP setup page](https://day.ai/mcp), captured 2026-11-09. It describes a **Claude** connector and OAuth flow, not Kaliper's authorization screen.
-
-![Day AI documentation listing its OAuth connector setup](vendor-doc-reference.png)
+**Draft reference, not a tested catalog guide.** [Day AI's public MCP setup page](https://day.ai/mcp) describes the flow in text but provides no verified setup-screen image. The earlier documentation-page capture was removed because it did not show a setup control. Keep this folder for the step screenshots taken during a real Kaliper connection.
 
 ## Proposed customer path
 
