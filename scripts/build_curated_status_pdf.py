@@ -44,6 +44,7 @@ BRANCH = {
     26: 'Zoom catalog copied from the separate vendor-agent branch; remote vendor endpoint.',
     44: 'Salesforce read-only catalog included from the Salesforce branch.',
     51: 'Clarify read-only CRM catalog; official endpoint and OAuth.',
+    52: 'Day AI read-only CRM catalog; official fixed endpoint and OAuth. Paid agent tier required.',
     53: 'Outreach read-only sales catalog; OAuth; vendor Amplify access may be required.',
     67: 'MongoDB Atlas catalog copied from the separate vendor-agent branch.',
     68: 'ClickHouse catalog copied from the separate vendor-agent branch.',
@@ -51,18 +52,10 @@ BRANCH = {
 }
 LOCAL = {3, 4, 5, 6, 7, 8, 13, 22, 27, 28, 29, 37, 40, 41, 42, 43,
          45, 54, 55, 57, 59, 61, 62, 65, 69, 72, 73, 84, 87, 88}
-TENANT = {15, 50, 56, 58, 71, 81, 82, 83}
+TENANT = {15, 50, 56, 58, 71, 77, 78, 79, 80, 81, 82, 83}
 RESEARCH = {
     16: 'Official Mem-hosted endpoint reported; verify live tool list, access and logo before catalog.',
-    24: 'Official Fellow endpoint and read tools documented; live connection and logo review pending.',
-    51: 'Official Clarify endpoint and read tools documented; live connection and logo review pending.',
-    52: 'Day AI endpoint and live tools still need first-party verification.',
-    53: 'Official Outreach endpoint and read tools documented; live connection and logo review pending.',
-    77: 'Verify Pendo endpoint, authentication and live tools from first-party documentation.',
-    78: 'Verify Contentsquare endpoint, authentication and live tools from first-party documentation.',
-    79: 'Verify Hex endpoint, authentication and live tools from first-party documentation.',
-    80: 'Verify Omni endpoint, authentication and live tools from first-party documentation.',
-    85: 'Verify Similarweb endpoint, authentication and live tools from first-party documentation.',
+    85: 'Fixed vendor endpoint and API key documented; exact MCP tool identifiers need a live authenticated probe.',
 }
 
 
@@ -95,6 +88,14 @@ def entries():
             reason = 'Zoho MCP requires the customer to build a server; no ready-made fixed CRM endpoint.'
         elif number == 55:
             reason = 'CData wrapper is third-party and local, not a Pipedrive-hosted MCP.'
+        elif number == 77:
+            reason = 'Pendo uses distinct regional MCP endpoints; region selection is not represented by the fixed-URL catalog.'
+        elif number == 78:
+            reason = 'Contentsquare exposes the MCP URL in each customer\'s in-app guide; no universal endpoint verified.'
+        elif number == 79:
+            reason = 'Hex has a shared US endpoint, but EU and dedicated tenants use different URLs; defer universal listing.'
+        elif number == 80:
+            reason = 'Omni directs users to their instance-specific MCP URL; no universal endpoint verified.'
         elif number == 86:
             status, reason = 'Excluded', 'QuerySail is a third-party hosted wrapper, not a Google-hosted MCP.'
         rows.append((number, category, name, status, reason))
@@ -135,7 +136,7 @@ def build():
     notes = [
         'The source PDF is a directory snapshot, not a live vendor specification. Remote and official claims require current first-party confirmation before publication.',
         'Tenant-specific vendor MCPs are deferred because the current catalog has one fixed service.url. No fabricated shared endpoint is used.',
-        'Fellow: https://developers.fellow.ai/reference/mcp-server ; Clarify: https://docs.clarify.ai/en/articles/13367278-clarify-mcp ; Outreach: https://developers.outreach.io/mcp-server/tool-catalog',
+        'Fellow: https://developers.fellow.ai/reference/mcp-server ; Clarify: https://docs.clarify.ai/en/articles/13367278-clarify-mcp ; Day AI: https://day.ai/mcp and https://github.com/day-ai/day-ai-sdk/blob/master/TOOLS.md ; Outreach: https://developers.outreach.io/mcp-server/tool-catalog',
         'Databricks and Snowflake endpoint assessment: repository docs/databricks-and-snowflake.md. Source shortlist: mcp-servers-curated (1).pdf, prepared October 2026.'
     ]
     for note in notes:
