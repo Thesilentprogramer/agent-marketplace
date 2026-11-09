@@ -29,6 +29,7 @@
   "connection": {
     "method": "signin",
     "provider": "Day AI",
+    "note": "Day AI MCP requires the paid Agent tier. Sign in, then choose the workspace and agent whose read-only data you want Rytangle to access.",
     "signin": {
       "client": "automatic"
     },

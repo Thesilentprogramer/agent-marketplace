@@ -31,6 +31,7 @@
   "connection": {
     "method": "signin",
     "provider": "ClickHouse Cloud",
+    "note": "Before signing in, ask a ClickHouse service admin to enable Remote MCP under Connect > Connect with MCP for the service you want to read. Sign in with an account that can access that service.",
     "signin": {
       "client": "automatic"
     },

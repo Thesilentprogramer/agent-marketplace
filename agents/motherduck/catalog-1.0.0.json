@@ -30,6 +30,7 @@
   "connection": {
     "method": "signin",
     "provider": "MotherDuck",
+    "note": "Sign in with the MotherDuck account that can access the database you want Rytangle to read. The catalog exposes read-only tools.",
     "signin": {
       "client": "automatic"
     },

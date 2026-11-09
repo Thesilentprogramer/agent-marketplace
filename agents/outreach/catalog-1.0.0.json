@@ -30,6 +30,7 @@
   "connection": {
     "method": "signin",
     "provider": "Outreach",
+    "note": "Before signing in, ask an Outreach admin to enable MCP Server under Administration > Organization > Org info > Gen AI. The organization needs Amplify access and your user needs a licensed seat.",
     "signin": {
       "client": "automatic"
     },

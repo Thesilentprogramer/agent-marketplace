@@ -29,6 +29,7 @@
   "connection": {
     "method": "signin",
     "provider": "Fellow",
+    "note": "Before signing in, ask a Fellow workspace admin to enable MCP connections under Workspace Settings > Fellow MCP. Use an account that can see the intended meetings.",
     "signin": {
       "client": "automatic"
     },

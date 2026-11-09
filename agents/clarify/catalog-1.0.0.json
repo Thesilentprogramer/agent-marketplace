@@ -29,6 +29,7 @@
   "connection": {
     "method": "signin",
     "provider": "Clarify",
+    "note": "Sign in with the Clarify account for the organization you want to connect, then choose that organization on the authorization screen.",
     "signin": {
       "client": "automatic"
     },
