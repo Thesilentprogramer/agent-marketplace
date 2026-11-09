@@ -40,8 +40,11 @@ EXISTING = {
 }
 BRANCH = {
     10: 'Box catalog copied from the separate vendor-agent branch; remote vendor endpoint.',
+    24: 'Fellow read-only meeting catalog; vendor OAuth and admin enablement.',
     26: 'Zoom catalog copied from the separate vendor-agent branch; remote vendor endpoint.',
     44: 'Salesforce read-only catalog included from the Salesforce branch.',
+    51: 'Clarify read-only CRM catalog; official endpoint and OAuth.',
+    53: 'Outreach read-only sales catalog; OAuth; vendor Amplify access may be required.',
     67: 'MongoDB Atlas catalog copied from the separate vendor-agent branch.',
     68: 'ClickHouse catalog copied from the separate vendor-agent branch.',
     70: 'MotherDuck read-only hosted catalog included; PDF listed an older local setup.',
